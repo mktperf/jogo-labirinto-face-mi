@@ -7,26 +7,51 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="game-container">
-        <h1>O Caminho da Face Mi</h1>
-        
-        <div id="game-board">
+    <main class="game-wrapper">
+        <section class="game-board-container">
+            <h1 class="game-title">O Caminho da Face Mi</h1>
+            <div id="game-board">
+                </div>
+            <div id="message-area" class="game-message">
+                </div>
+        </section>
+
+        <aside class="sidebar-info">
+            <div class="logo-area">
+                <img src="https://i.imgur.com/K75uG9g.png" alt="Logo Face Mi">
+                <h2>Viagem Face Mi — Braga → Porto</h2>
             </div>
 
-        <div id="controls">
-            <button id="restart-button">Reiniciar</button>
-            <a href="https://share.google/OjNSiMav3mNA2vtCA" target="_blank">
-                <button id="map-button">Mostrar Mapa</button>
-            </a>
-        </div>
-
-        <div id="message-area">
+            <div class="intro-text">
+                <p>Comece na clínica em Braga e descubra o caminho até a nova clínica no Porto. Use as setas do teclado para se mover.</p>
             </div>
-    </div>
+
+            <div class="status-box">
+                <h3>Status do jogo</h3>
+                <div class="status-item">
+                    <span>Posição:</span>
+                    <span id="player-position">Início</span>
+                </div>
+            </div>
+
+            <div class="poi-box">
+                <h3>Pontos no caminho</h3>
+                <ul id="poi-list">
+                    </ul>
+            </div>
+
+            <div class="controls-box">
+                <button id="restart-button" class="btn btn-restart">Reiniciar</button>
+                <a href="https://share.google/OjNSiMav3mNA2vtCA" target="_blank" class="btn btn-map hidden">
+                    Mostrar Mapa
+                </a>
+            </div>
+        </aside>
+    </main>
 
     <script src="script.js"></script>
 </body>

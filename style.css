@@ -2,7 +2,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #e3f2fd;
+    background-color: #e3e2e0; /* Nova cor de fundo */
     color: #333;
     display: flex;
     justify-content: center;
@@ -32,7 +32,7 @@ body {
 }
 
 .game-title {
-    color: #1a237e;
+    color: #000; /* Título em preto */
     font-size: 2.5em;
     font-weight: 700;
     margin-bottom: 30px;
@@ -73,14 +73,14 @@ body {
 }
 
 .player {
-    background-color: #4CAF50;
+    background-color: #000; /* Bolinha do jogador em preto */
     border-radius: 50%;
     border: 2px solid #333;
     box-sizing: border-box;
 }
 
 .path-highlight {
-    background-color: #C4BCB3; /* Cor do caminho solicitada */
+    background-color: #C4BCB3;
 }
 
 .game-message {
@@ -92,11 +92,11 @@ body {
 }
 
 .success {
-    color: #000; /* Mensagem de sucesso em preto */
+    color: #000;
 }
 
 .error {
-    color: #f44336; /* Mensagem de erro em vermelho */
+    color: #f44336;
 }
 
 .sidebar-info {
@@ -119,7 +119,7 @@ body {
 }
 .logo-area h2 {
     font-size: 1.5em;
-    color: #1a237e;
+    color: #000; /* Título em preto */
     margin: 0;
 }
 
@@ -134,7 +134,7 @@ body {
 
 h3 {
     font-size: 1.2em;
-    color: #1a237e;
+    color: #000; /* Título em preto */
     border-bottom: 2px solid #ddd;
     padding-bottom: 5px;
     margin-bottom: 15px;
@@ -169,12 +169,19 @@ h3 {
 .poi-item h4 {
     font-size: 1em;
     margin: 0;
-    color: #333;
+    color: #000;
 }
 .poi-item p {
     font-size: 0.8em;
     color: #666;
     margin: 0;
+}
+
+.controls-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaço entre os botões */
+    align-items: center;
 }
 
 .btn {
@@ -201,7 +208,7 @@ h3 {
 
 .btn-map {
     background-color: #2196F3;
-    display: none; /* Escondido por padrão, JavaScript vai exibir */
+    display: none;
 }
 .btn-map:hover {
     background-color: #1976d2;

@@ -67,13 +67,14 @@ body {
 }
 
 .end {
-    background-image: url('https://i.imgur.com/K75uG9g.png');
-    background-size: cover;
+    background-image: url('https://static.wixstatic.com/media/da4f03_1bc51c11d4de4f52b6b340a0cb356b8e~mv2.png');
+    background-size: contain; /* Usar 'contain' para o logo caber */
+    background-repeat: no-repeat;
     background-position: center;
 }
 
 .player {
-    background-color: #000; /* Bolinha do jogador em preto */
+    background-color: #000;
     border-radius: 50%;
     border: 2px solid #333;
     box-sizing: border-box;
@@ -119,7 +120,7 @@ body {
 }
 .logo-area h2 {
     font-size: 1.5em;
-    color: #000; /* Título em preto */
+    color: #000;
     margin: 0;
 }
 
@@ -134,7 +135,7 @@ body {
 
 h3 {
     font-size: 1.2em;
-    color: #000; /* Título em preto */
+    color: #000;
     border-bottom: 2px solid #ddd;
     padding-bottom: 5px;
     margin-bottom: 15px;
@@ -153,7 +154,7 @@ h3 {
 }
 .poi-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 15px;
     opacity: 0.5;
     transition: opacity 0.3s;
@@ -161,9 +162,8 @@ h3 {
 .poi-item.revealed {
     opacity: 1;
 }
-.poi-item img {
-    width: 30px;
-    height: 30px;
+.poi-item .icon {
+    font-size: 1.8em;
     margin-right: 15px;
 }
 .poi-item h4 {
@@ -180,7 +180,7 @@ h3 {
 .controls-box {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Espaço entre os botões */
+    gap: 10px;
     align-items: center;
 }
 

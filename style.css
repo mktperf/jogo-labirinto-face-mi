@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.game-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+}
+
+#game-board {
+    display: grid;
+    border: 2px solid #333;
+    background-color: #ddd;
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.wall {
+    background-color: #333;
+    border: 1px solid #333;
+}
+
+.start {
+    background-image: url('https://i.imgur.com/SEW92W0.png'); /* Imagem da Face Mi de Braga */
+    background-size: cover;
+    background-position: center;
+}
+
+.end {
+    background-image: url('https://i.imgur.com/K75uG9g.png'); /* Imagem da Face Mi do Porto */
+    background-size: cover;
+    background-position: center;
+}
+
+.player {
+    background-color: #4CAF50;
+    border: 2px solid #333;
+    box-sizing: border-box;
+}
+
+.path-highlight {
+    background-color: #c9f7c9;
+}
+
+#controls {
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+}
+
+#restart-button {
+    background-color: #f44336;
+}
+
+#map-button {
+    background-color: #2196F3;
+}
+
+#message-area {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.success {
+    color: #4CAF50;
+}
+
+.error {
+    color: #f44336;
+}
+
+/* Classes para os pontos turísticos */
+.mercado-bom-sucesso {
+    background-image: url('https://i.imgur.com/J3y8f0C.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+.mercado-bom-sucesso::after {
+    content: 'Mercado do Bom Sucesso';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    width: 100px;
+    text-align: center;
+}

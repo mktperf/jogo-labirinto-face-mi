@@ -9,32 +9,42 @@ document.addEventListener('DOMContentLoaded', () => {
     let playerPosition = { x: 0, y: 0 };
     let visitedPath = new Set();
     let isGameWon = false;
-    let pathLength = 0; // Para calcular a porcentagem de progresso
 
-    // Novo labirinto (12x12) para os novos POIs
+    // Novo e mais difícil labirinto (12x12)
+    // O caminho correto é: (0,0) -> (0,1) -> (1,1) -> ... -> (11,11)
     const maze = [
-        ['start', 'path', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
-        ['wall', 'path', 'wall', 'wall', 'wall', 'path', 'path', 'path', 'path', 'path', 'path', 'wall'],
-        ['wall', 'path', 'path', 'path', 'path', 'path', 'wall', 'wall', 'wall', 'wall', 'path', 'wall'],
-        ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'path', 'wall', 'path', 'wall'],
-        ['wall', 'path', 'path', 'path', 'wall', 'path', 'path', 'path', 'wall', 'wall', 'path', 'wall'],
-        ['wall', 'path', 'wall', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'wall'],
-        ['wall', 'path', 'wall', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'wall'],
-        ['wall', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
-        ['wall', 'path', 'path', 'path', 'path', 'path', 'wall', 'path', 'path', 'path', 'path', 'path'],
-        ['wall', 'wall', 'wall', 'wall', 'wall', 'path', 'wall', 'path', 'wall', 'wall', 'wall', 'wall'],
+        ['start', 'path', 'path', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
+        ['wall', 'path', 'wall', 'path', 'wall', 'path', 'path', 'path', 'path', 'path', 'path', 'wall'],
+        ['wall', 'path', 'wall', 'path', 'wall', 'path', 'wall', 'wall', 'wall', 'wall', 'path', 'wall'],
         ['wall', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'wall', 'path', 'wall'],
-        ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'path', 'path', 'end']
+        ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'wall', 'path', 'wall'],
+        ['wall', 'path', 'path', 'path', 'path', 'path', 'path', 'wall', 'path', 'wall', 'path', 'wall'],
+        ['wall', 'path', 'wall', 'wall', 'wall', 'wall', 'path', 'wall', 'path', 'path', 'path', 'wall'],
+        ['wall', 'path', 'path', 'path', 'path', 'path', 'path', 'wall', 'wall', 'wall', 'wall', 'wall'],
+        ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'wall', 'path', 'path', 'path', 'path'],
+        ['wall', 'path', 'path', 'path', 'path', 'path', 'path', 'wall', 'path', 'wall', 'wall', 'wall'],
+        ['wall', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'path', 'path', 'wall'],
+        ['wall', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'end']
     ];
+
+    // Mapeamento de coordenadas do caminho correto
+    const correctPath = [
+        { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 },
+        { x: 3, y: 1 }, { x: 4, y: 1 }, { x: 5, y: 1 }, { x: 6, y: 1 }, { x: 7, y: 1 }, { x: 8, y: 1 }, { x: 9, y: 1 }, { x: 10, y: 1 },
+        { x: 10, y: 2 }, { x: 10, y: 3 }, { x: 10, y: 4 }, { x: 10, y: 5 }, { x: 10, y: 6 }, { x: 10, y: 7 },
+        { x: 9, y: 7 }, { x: 8, y: 7 }, { x: 8, y: 8 }, { x: 8, y: 9 }, { x: 8, y: 10 }, { x: 9, y: 10 }, { x: 10, y: 10 },
+        { x: 10, y: 11 }, { x: 11, y: 11 }
+    ];
+    const pathLength = correctPath.length;
 
     // Pontos de interesse na ordem correta, com emojis e descrições
     const touristPoints = [
-        { name: 'Sé de Braga', coords: { x: 1, y: 0 }, icon: '⛪', description: 'Centro histórico de Braga — perto da clínica inicial.' },
-        { name: 'Estádio Municipal de Braga', coords: { x: 1, y: 1 }, icon: '🏟️', description: 'Obra arquitetónica icónica da cidade.' },
-        { name: 'Autoestrada (A3)', coords: { x: 5, y: 1 }, icon: '🛣️', description: 'Trecho que liga Braga ao Porto — representado no tabuleiro.' },
-        { name: 'Casa da Música', coords: { x: 5, y: 4 }, icon: '🎵', description: 'Praça cultural no Porto.' },
-        { name: 'Mercado do Bom Sucesso', coords: { x: 7, y: 4 }, icon: '🛍️', description: 'Mercado gastronómico no Porto, ótimo para uma paragem.' },
-        { name: 'Rotunda da Boavista', coords: { x: 9, y: 8 }, icon: '🔄', description: 'Grande rotunda urbana, ponto de referência no trajeto final.' }
+        { name: 'Sé de Braga', coords: { x: 2, y: 0 }, icon: '⛪', description: 'Centro histórico de Braga — perto da clínica inicial.' },
+        { name: 'Estádio Municipal de Braga', coords: { x: 1, y: 2 }, icon: '🏟️', description: 'Obra arquitetónica icónica da cidade.' },
+        { name: 'Autoestrada (A3)', coords: { x: 5, y: 2 }, icon: '🛣️', description: 'Trecho que liga Braga ao Porto — representado no tabuleiro.' },
+        { name: 'Casa da Música', coords: { x: 8, y: 4 }, icon: '🎵', description: 'Praça cultural no Porto.' },
+        { name: 'Mercado do Bom Sucesso', coords: { x: 9, y: 6 }, icon: '🛍️', description: 'Mercado gastronómico no Porto, ótimo para uma paragem.' },
+        { name: 'Rotunda da Boavista', coords: { x: 10, y: 10 }, icon: '🔄', description: 'Grande rotunda urbana, ponto de referência no trajeto final.' }
     ];
 
     function createMaze() {
@@ -42,9 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         gameBoard.innerHTML = '';
         gameBoard.style.gridTemplateColumns = `repeat(${maze[0].length}, 1fr)`;
         visitedPath.clear();
-        mapButton.classList.remove('visible');
+        mapButton.classList.add('hidden');
+        restartButton.classList.remove('hidden');
         messageArea.textContent = '';
-
+        
         maze.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
                 const cellDiv = document.createElement('div');
@@ -65,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Adiciona a lista de POIs ao sidebar
         poiList.innerHTML = touristPoints.map(poi => `
             <li class="poi-item" data-x="${poi.coords.x}" data-y="${poi.coords.y}">
                 <span class="icon">${poi.icon}</span>
@@ -77,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
 
         drawPlayer();
-        updateStatus();
     }
 
     function drawPlayer() {
@@ -96,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             playerCell.classList.add('player');
             visitedPath.add(`${playerPosition.y},${playerPosition.x}`);
         }
+        updateStatus();
     }
 
     function movePlayer(dx, dy) {
@@ -108,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (maze[newY][newX] !== 'wall') {
                 playerPosition = { x: newX, y: newY };
                 drawPlayer();
-                updateStatus();
                 checkGameState();
                 showMessage('', '');
             } else {
@@ -121,12 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
         playerPositionDisplay.textContent = `(${playerPosition.y}, ${playerPosition.x})`;
 
         // Lógica de revelação de POIs por porcentagem
-        const totalPathLength = 20; // A estimativa de células no caminho
-        const currentPathPercentage = (visitedPath.size / totalPathLength) * 100;
-
+        const progress = visitedPath.size;
+        const totalPathLength = 27; // O caminho correto tem 27 passos
+        const progressPercentage = (progress / totalPathLength) * 100;
+        
         touristPoints.forEach((poi, index) => {
             const percentageToReveal = ((index + 1) / touristPoints.length) * 100;
-            if (currentPathPercentage >= percentageToReveal) {
+            if (progressPercentage >= percentageToReveal) {
                 const poiItem = document.querySelector(`.poi-item[data-x="${poi.coords.x}"][data-y="${poi.coords.y}"]`);
                 if (poiItem) {
                     poiItem.classList.add('revealed');
@@ -140,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (endCell === 'end') {
             isGameWon = true;
             showMessage("Parabéns! O Instituto Face Mi chegou ao Porto! 🎉 Você venceu!", 'success');
-            mapButton.classList.add('visible');
+            mapButton.classList.remove('hidden');
             document.removeEventListener('keydown', handleKeyDown);
         }
     }

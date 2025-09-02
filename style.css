@@ -2,12 +2,14 @@ body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #e3e2e0; /* Nova cor de fundo */
+    background-color: #e3e2e0;
     color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 100vh; /* Garante que a tela sempre tenha altura total */
+    padding: 20px; /* Adiciona um respiro nas bordas */
+    box-sizing: border-box;
 }
 
 .game-wrapper {
@@ -15,6 +17,7 @@ body {
     width: 90vw;
     max-width: 1200px;
     height: 90vh;
+    max-height: 900px; /* Limita a altura para evitar overflow */
     background-color: #fff;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -32,7 +35,7 @@ body {
 }
 
 .game-title {
-    color: #000; /* Título em preto */
+    color: #000;
     font-size: 2.5em;
     font-weight: 700;
     margin-bottom: 30px;
@@ -68,7 +71,7 @@ body {
 
 .end {
     background-image: url('https://static.wixstatic.com/media/da4f03_1bc51c11d4de4f52b6b340a0cb356b8e~mv2.png');
-    background-size: contain; /* Usar 'contain' para o logo caber */
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -107,6 +110,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow-y: auto; /* Permite scroll se o conteúdo for muito grande */
 }
 
 .logo-area {
@@ -182,6 +186,8 @@ h3 {
     flex-direction: column;
     gap: 10px;
     align-items: center;
+    margin-top: auto; /* Empurra os botões para o final */
+    padding-top: 20px;
 }
 
 .btn {

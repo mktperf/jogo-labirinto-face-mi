@@ -8,30 +8,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let playerPosition = { x: 0, y: 0 };
     let visitedPath = new Set();
-    let revealedPois = new Set();
     let isGameWon = false;
 
-    // Novo labirinto mais difícil (12x12)
+    // Novo labirinto (12x12) para os novos POIs
     const maze = [
-        ['start', 'path', 'path', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
-        ['wall', 'wall', 'wall', 'path', 'wall', 'path', 'path', 'path', 'wall', 'path', 'path', 'wall'],
-        ['wall', 'path', 'path', 'path', 'wall', 'path', 'wall', 'path', 'wall', 'path', 'wall', 'wall'],
-        ['wall', 'path', 'wall', 'wall', 'wall', 'path', 'wall', 'path', 'wall', 'path', 'path', 'wall'],
-        ['wall', 'path', 'path', 'path', 'path', 'path', 'wall', 'path', 'wall', 'wall', 'path', 'wall'],
+        ['start', 'path', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
+        ['wall', 'path', 'wall', 'wall', 'wall', 'path', 'path', 'path', 'path', 'path', 'path', 'wall'],
+        ['wall', 'path', 'path', 'path', 'path', 'path', 'wall', 'wall', 'wall', 'wall', 'path', 'wall'],
         ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'path', 'wall', 'path', 'wall'],
-        ['wall', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'wall', 'wall', 'path', 'wall'],
-        ['wall', 'path', 'wall', 'path', 'wall', 'path', 'wall', 'path', 'path', 'path', 'path', 'wall'],
-        ['wall', 'path', 'wall', 'path', 'wall', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
-        ['wall', 'path', 'path', 'path', 'wall', 'path', 'path', 'path', 'path', 'path', 'path', 'wall'],
-        ['wall', 'wall', 'wall', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'wall'],
-        ['wall', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'end']
+        ['wall', 'path', 'path', 'path', 'wall', 'path', 'path', 'path', 'wall', 'wall', 'path', 'wall'],
+        ['wall', 'path', 'wall', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'wall'],
+        ['wall', 'path', 'wall', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'wall'],
+        ['wall', 'path', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall'],
+        ['wall', 'path', 'path', 'path', 'path', 'path', 'wall', 'path', 'path', 'path', 'path', 'path'],
+        ['wall', 'wall', 'wall', 'wall', 'wall', 'path', 'wall', 'path', 'wall', 'wall', 'wall', 'wall'],
+        ['wall', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'path', 'wall', 'path', 'wall'],
+        ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'path', 'path', 'path', 'end']
     ];
 
-    // Pontos de interesse
+    // Pontos de interesse na ordem correta, com emojis e descrições
     const touristPoints = [
-        { name: 'Castelo de Guimarães', coords: { x: 5, y: 7 }, icon: 'https://i.imgur.com/Q2rRz8R.png', description: 'O berço da nação portuguesa!' },
-        { name: 'Estação de São Bento', coords: { x: 8, y: 1 }, icon: 'https://i.imgur.com/gK9s0uP.png', description: 'Famosa pelos seus painéis de azulejo.' },
-        { name: 'Mercado do Bom Sucesso', coords: { x: 1, y: 2 }, icon: 'https://i.imgur.com/J3y8f0C.png', description: 'Mercado gastronómico no Porto.' }
+        { name: 'Sé de Braga', coords: { x: 1, y: 0 }, icon: '⛪', description: 'Centro histórico de Braga — perto da clínica inicial.' },
+        { name: 'Estádio Municipal de Braga', coords: { x: 1, y: 1 }, icon: '🏟️', description: 'Obra arquitetónica icónica da cidade.' },
+        { name: 'Autoestrada (A3)', coords: { x: 5, y: 1 }, icon: '🛣️', description: 'Trecho que liga Braga ao Porto — representado no tabuleiro.' },
+        { name: 'Casa da Música', coords: { x: 5, y: 4 }, icon: '🎵', description: 'Praça cultural no Porto.' },
+        { name: 'Mercado do Bom Sucesso', coords: { x: 7, y: 4 }, icon: '🛍️', description: 'Mercado gastronómico no Porto, ótimo para uma paragem.' },
+        { name: 'Rotunda da Boavista', coords: { x: 9, y: 8 }, icon: '🔄', description: 'Grande rotunda urbana, ponto de referência no trajeto final.' }
     ];
 
     function createMaze() {
@@ -39,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         gameBoard.innerHTML = '';
         gameBoard.style.gridTemplateColumns = `repeat(${maze[0].length}, 1fr)`;
         visitedPath.clear();
-        revealedPois.clear();
         mapButton.classList.remove('visible');
+        messageArea.textContent = '';
 
         maze.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
@@ -51,9 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     cellDiv.classList.add('wall');
                 } else if (cell === 'start') {
                     playerPosition = { x: colIndex, y: rowIndex };
+                    cellDiv.classList.add('start');
                 } else if (cell === 'end') {
                     cellDiv.classList.add('end');
                 }
+                
                 cellDiv.dataset.x = colIndex;
                 cellDiv.dataset.y = rowIndex;
                 gameBoard.appendChild(cellDiv);
@@ -63,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Adiciona a lista de POIs ao sidebar
         poiList.innerHTML = touristPoints.map(poi => `
             <li class="poi-item" data-x="${poi.coords.x}" data-y="${poi.coords.y}">
-                <img src="${poi.icon}" alt="${poi.name}">
+                <span>${poi.icon}</span>
                 <div>
                     <h4>${poi.name}</h4>
                     <p>${poi.description}</p>
@@ -105,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 drawPlayer();
                 updateStatus();
                 checkGameState();
-                showMessage('', ''); // Limpa a mensagem de erro ao se mover
+                showMessage('', '');
             } else {
                 showMessage("Ops! Este não parece ser o caminho certo. 😕 Tente outra vez!", 'error');
             }
@@ -113,25 +117,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateStatus() {
-        // Atualiza a posição do jogador no painel lateral
         playerPositionDisplay.textContent = `(${playerPosition.y}, ${playerPosition.x})`;
 
         // Revela pontos de interesse no painel lateral
         touristPoints.forEach(poi => {
             if (playerPosition.x === poi.coords.x && playerPosition.y === poi.coords.y) {
-                if (!revealedPois.has(poi.name)) {
-                    const poiItem = document.querySelector(`.poi-item[data-x="${poi.coords.x}"][data-y="${poi.coords.y}"]`);
-                    if (poiItem) {
-                        poiItem.classList.add('revealed');
-                    }
-                    revealedPois.add(poi.name);
+                const poiItem = document.querySelector(`.poi-item[data-x="${poi.coords.x}"][data-y="${poi.coords.y}"]`);
+                if (poiItem) {
+                    poiItem.classList.add('revealed');
                 }
             }
         });
     }
 
     function checkGameState() {
-        if (maze[playerPosition.y][playerPosition.x] === 'end') {
+        const endCell = maze[playerPosition.y][playerPosition.x];
+        if (endCell === 'end') {
             isGameWon = true;
             showMessage("Parabéns! O Instituto Face Mi chegou ao Porto! 🎉 Você venceu!", 'success');
             mapButton.classList.add('visible');
@@ -147,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Movimentação com as setas do teclado
     function handleKeyDown(e) {
         switch (e.key) {
             case 'ArrowUp':
@@ -164,10 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
     }
-
+    
     document.addEventListener('keydown', handleKeyDown);
-
-    // Evento para o botão de reiniciar
+    
     restartButton.addEventListener('click', () => {
         createMaze();
         showMessage('', '');

@@ -1,144 +1,215 @@
 body {
-    font-family: 'Montserrat', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e3f2fd;
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
-    background-color: #e3f2fd; /* Azul claro, mais suave */
 }
 
-.game-container {
-    text-align: center;
+.game-wrapper {
+    display: flex;
+    width: 90vw;
+    max-width: 1200px;
+    height: 90vh;
     background-color: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
 }
 
-h1 {
-    color: #1a237e; /* Azul escuro, combinando com a Face Mi */
-    font-size: 2em;
-    margin-bottom: 20px;
+.game-board-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.game-title {
+    color: #1a237e;
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 30px;
 }
 
 #game-board {
     display: grid;
-    border: 3px solid #1a237e;
-    background-color: #b0bec5; /* Cinza suave */
-    margin: 20px auto;
+    border: 4px solid #1a237e;
+    background-color: #b0bec5;
+    margin: 0 auto;
     width: fit-content;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .cell {
-    width: 45px;
-    height: 45px;
-    background-color: #eceff1; /* Branco gelo */
-    border: 1px solid #cfd8dc; /* Borda mais suave */
+    width: 40px;
+    height: 40px;
+    background-color: #eceff1;
+    border: 1px solid #cfd8dc;
     box-sizing: border-box;
-    position: relative; /* Para posicionar os ícones */
 }
 
 .wall {
-    background-color: #455a64; /* Cinza escuro */
+    background-color: #455a64;
     border: 1px solid #455a64;
 }
 
 .start {
-    background-image: url('https://i.imgur.com/SEW92W0.png'); /* Imagem da Face Mi de Braga */
+    background-image: url('https://i.imgur.com/SEW92W0.png');
     background-size: cover;
     background-position: center;
 }
 
 .end {
-    background-image: url('https://i.imgur.com/K75uG9g.png'); /* Imagem da Face Mi do Porto */
+    background-image: url('https://i.imgur.com/K75uG9g.png');
     background-size: cover;
     background-position: center;
 }
 
 .player {
     background-color: #4CAF50;
+    border-radius: 50%;
     border: 2px solid #333;
     box-sizing: border-box;
-    border-radius: 50%; /* Faz o bonequinho ser uma bolinha */
 }
 
 .path-highlight {
-    background-color: #c8e6c9; /* Verde claro para o caminho */
+    background-color: #C4BCB3; /* Cor do caminho solicitada */
 }
 
-#controls {
-    margin-top: 20px;
-}
-
-button {
-    padding: 12px 25px;
-    margin: 5px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #fff;
-    transition: background-color 0.3s;
-}
-
-#restart-button {
-    background-color: #f44336; /* Vermelho */
-}
-#restart-button:hover {
-    background-color: #d32f2f;
-}
-
-#map-button {
-    background-color: #2196F3; /* Azul */
-}
-#map-button:hover {
-    background-color: #1976d2;
-}
-
-#message-area {
-    margin-top: 20px;
-    font-weight: bold;
+.game-message {
+    margin-top: 30px;
+    font-weight: 600;
     font-size: 1.2em;
     padding: 10px;
+    min-height: 40px;
 }
 
 .success {
-    color: #000; /* Texto de sucesso agora é preto, como pediu */
+    color: #000; /* Mensagem de sucesso em preto */
 }
 
 .error {
-    color: #f44336;
+    color: #f44336; /* Mensagem de erro em vermelho */
 }
 
-/* Classes para os novos pontos turísticos */
-.mercado-bom-sucesso, .guimaraes-castle, .sao-bento-station {
-    background-size: 70%; /* Ícones menores */
-    background-repeat: no-repeat;
-    background-position: center;
+.sidebar-info {
+    flex: 1;
+    background-color: #fff;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
-.mercado-bom-sucesso {
-    background-image: url('https://i.imgur.com/J3y8f0C.png');
-}
-
-.guimaraes-castle {
-    background-image: url('https://i.imgur.com/Q2rRz8R.png'); /* Ícone de castelo */
-}
-
-.sao-bento-station {
-    background-image: url('https://i.imgur.com/gK9s0uP.png'); /* Ícone de estação de trem */
-}
-
-/* Adiciona um texto abaixo dos ícones */
-.mercado-bom-sucesso::after, .guimaraes-castle::after, .sao-bento-station::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.7em;
-    width: 100px;
+.logo-area {
     text-align: center;
-    color:
+    margin-bottom: 20px;
+}
+.logo-area img {
+    width: 80px;
+    height: auto;
+    margin-bottom: 10px;
+}
+.logo-area h2 {
+    font-size: 1.5em;
+    color: #1a237e;
+    margin: 0;
+}
+
+.intro-text p {
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.status-box, .poi-box, .controls-box {
+    margin-top: 25px;
+}
+
+h3 {
+    font-size: 1.2em;
+    color: #1a237e;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.status-item {
+    font-size: 1em;
+    display: flex;
+    justify-content: space-between;
+}
+
+#poi-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.poi-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+.poi-item.revealed {
+    opacity: 1;
+}
+.poi-item img {
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+}
+.poi-item h4 {
+    font-size: 1em;
+    margin: 0;
+    color: #333;
+}
+.poi-item p {
+    font-size: 0.8em;
+    color: #666;
+    margin: 0;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.btn-restart {
+    background-color: #f44336;
+}
+.btn-restart:hover {
+    background-color: #d32f2f;
+}
+
+.btn-map {
+    background-color: #2196F3;
+    display: none; /* Escondido por padrão, JavaScript vai exibir */
+}
+.btn-map:hover {
+    background-color: #1976d2;
+}
+.btn-map.visible {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}

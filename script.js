@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let playerPosition = { x: 0, y: 0 };
     let visitedPath = new Set();
     let isGameWon = false;
+    let pathLength = 0; // Para calcular a porcentagem de progresso
 
     // Novo labirinto (12x12) para os novos POIs
     const maze = [
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Adiciona a lista de POIs ao sidebar
         poiList.innerHTML = touristPoints.map(poi => `
             <li class="poi-item" data-x="${poi.coords.x}" data-y="${poi.coords.y}">
-                <span>${poi.icon}</span>
+                <span class="icon">${poi.icon}</span>
                 <div>
                     <h4>${poi.name}</h4>
                     <p>${poi.description}</p>
@@ -119,9 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateStatus() {
         playerPositionDisplay.textContent = `(${playerPosition.y}, ${playerPosition.x})`;
 
-        // Revela pontos de interesse no painel lateral
-        touristPoints.forEach(poi => {
-            if (playerPosition.x === poi.coords.x && playerPosition.y === poi.coords.y) {
+        // Lógica de revelação de POIs por porcentagem
+        const totalPathLength = 20; // A estimativa de células no caminho
+        const currentPathPercentage = (visitedPath.size / totalPathLength) * 100;
+
+        touristPoints.forEach((poi, index) => {
+            const percentageToReveal = ((index + 1) / touristPoints.length) * 100;
+            if (currentPathPercentage >= percentageToReveal) {
                 const poiItem = document.querySelector(`.poi-item[data-x="${poi.coords.x}"][data-y="${poi.coords.y}"]`);
                 if (poiItem) {
                     poiItem.classList.add('revealed');

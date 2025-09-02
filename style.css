@@ -1,44 +1,47 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-color: #e3f2fd; /* Azul claro, mais suave */
 }
 
 .game-container {
     text-align: center;
     background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
-    color: #333;
+    color: #1a237e; /* Azul escuro, combinando com a Face Mi */
+    font-size: 2em;
+    margin-bottom: 20px;
 }
 
 #game-board {
     display: grid;
-    border: 2px solid #333;
-    background-color: #ddd;
+    border: 3px solid #1a237e;
+    background-color: #b0bec5; /* Cinza suave */
     margin: 20px auto;
     width: fit-content;
 }
 
 .cell {
-    width: 30px;
-    height: 30px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    width: 45px;
+    height: 45px;
+    background-color: #eceff1; /* Branco gelo */
+    border: 1px solid #cfd8dc; /* Borda mais suave */
     box-sizing: border-box;
+    position: relative; /* Para posicionar os ícones */
 }
 
 .wall {
-    background-color: #333;
-    border: 1px solid #333;
+    background-color: #455a64; /* Cinza escuro */
+    border: 1px solid #455a64;
 }
 
 .start {
@@ -57,10 +60,11 @@ h1 {
     background-color: #4CAF50;
     border: 2px solid #333;
     box-sizing: border-box;
+    border-radius: 50%; /* Faz o bonequinho ser uma bolinha */
 }
 
 .path-highlight {
-    background-color: #c9f7c9;
+    background-color: #c8e6c9; /* Verde claro para o caminho */
 }
 
 #controls {
@@ -68,52 +72,73 @@ h1 {
 }
 
 button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     margin: 5px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.1em;
+    font-weight: bold;
     color: #fff;
+    transition: background-color 0.3s;
 }
 
 #restart-button {
-    background-color: #f44336;
+    background-color: #f44336; /* Vermelho */
+}
+#restart-button:hover {
+    background-color: #d32f2f;
 }
 
 #map-button {
-    background-color: #2196F3;
+    background-color: #2196F3; /* Azul */
+}
+#map-button:hover {
+    background-color: #1976d2;
 }
 
 #message-area {
     margin-top: 20px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.2em;
+    padding: 10px;
 }
 
 .success {
-    color: #4CAF50;
+    color: #000; /* Texto de sucesso agora é preto, como pediu */
 }
 
 .error {
     color: #f44336;
 }
 
-/* Classes para os pontos turísticos */
-.mercado-bom-sucesso {
-    background-image: url('https://i.imgur.com/J3y8f0C.png');
-    background-size: contain;
+/* Classes para os novos pontos turísticos */
+.mercado-bom-sucesso, .guimaraes-castle, .sao-bento-station {
+    background-size: 70%; /* Ícones menores */
     background-repeat: no-repeat;
     background-position: center;
-    position: relative;
 }
-.mercado-bom-sucesso::after {
-    content: 'Mercado do Bom Sucesso';
+
+.mercado-bom-sucesso {
+    background-image: url('https://i.imgur.com/J3y8f0C.png');
+}
+
+.guimaraes-castle {
+    background-image: url('https://i.imgur.com/Q2rRz8R.png'); /* Ícone de castelo */
+}
+
+.sao-bento-station {
+    background-image: url('https://i.imgur.com/gK9s0uP.png'); /* Ícone de estação de trem */
+}
+
+/* Adiciona um texto abaixo dos ícones */
+.mercado-bom-sucesso::after, .guimaraes-castle::after, .sao-bento-station::after {
+    content: '';
     position: absolute;
-    bottom: -25px;
+    bottom: -15px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 10px;
+    font-size: 0.7em;
     width: 100px;
     text-align: center;
-}
+    color:
